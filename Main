@@ -1,0 +1,208 @@
+Imports System.Drawing
+Imports System.IO
+Imports iTextSharp.text
+Imports iTextSharp.text.pdf
+Imports iTextSharp.text.pdf.draw
+
+Public Class MainForm
+
+    Private Sub MainForm_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        AddHandler PictureBox1.Click, AddressOf PictureBox_Click
+        rtbExperience.SelectionBullet = True
+    End Sub
+
+    Private Sub PictureBox_Click(sender As Object, e As EventArgs)
+        Dim openFileDialog As New OpenFileDialog()
+        openFileDialog.Filter = "Image Files|*.jpg;*.jpeg;*.png;*.bmp"
+
+        If openFileDialog.ShowDialog() = DialogResult.OK Then
+            PictureBox1.Image = System.Drawing.Image.FromFile(openFileDialog.FileName)
+        End If
+    End Sub
+
+    Private Sub rtbExperience_KeyDown(sender As Object, e As KeyEventArgs) Handles rtbExperience.KeyDown
+        If e.KeyCode = Keys.Enter Then
+            BeginInvoke(New MethodInvoker(Sub()
+                                              rtbExperience.SelectionBullet = True
+                                          End Sub))
+        End If
+    End Sub
+
+    ' NEW: Handle Enter key on the last field to generate the resume
+    Private Sub rtbObjectives_KeyDown(sender As Object, e As KeyEventArgs) Handles rtbObjectives.KeyDown
+        If e.KeyCode = Keys.Enter Then
+            e.SuppressKeyPress = True
+            If AreAllFieldsFilled() Then
+                Call btnGenerate_Click(sender, e)
+            Else
+                MessageBox.Show("Please fill in all fields before generating the resume.", "Missing Information", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            End If
+        End If
+    End Sub
+
+    ' NEW: Check if all fields are filled
+    Private Function AreAllFieldsFilled() As Boolean
+        Return Not (String.IsNullOrWhiteSpace(txtName.Text) OrElse
+                    String.IsNullOrWhiteSpace(txtEmail.Text) OrElse
+                    String.IsNullOrWhiteSpace(txtPhone.Text) OrElse
+                    String.IsNullOrWhiteSpace(txtAddress.Text) OrElse
+                    String.IsNullOrWhiteSpace(rtbskills.Text) OrElse
+                    String.IsNullOrWhiteSpace(rtbeducation.Text) OrElse
+                    String.IsNullOrWhiteSpace(rtbExperience.Text) OrElse
+                    String.IsNullOrWhiteSpace(rtbObjectives.Text))
+    End Function
+
+    Private Sub btnGenerate_Click(sender As Object, e As EventArgs)
+        Dim saveFileDialog As New SaveFileDialog
+        saveFileDialog.Filter = "PDF Files|*.pdf"
+        saveFileDialog.Title = "Save your resume"
+
+        If saveFileDialog.ShowDialog = DialogResult.OK Then
+            Dim doc As New Document(PageSize.A4, 50, 50, 50, 50)
+            Dim writer = PdfWriter.GetInstance(doc, New FileStream(saveFileDialog.FileName, FileMode.Create))
+            doc.Open()
+
+            ' Header (Picture + Contact Info)
+            Dim headerTable As New PdfPTable(2)
+            headerTable.WidthPercentage = 100
+            headerTable.SetWidths({1, 3})
+
+            If PictureBox1.Image IsNot Nothing Then
+                Using ms As New MemoryStream
+                    PictureBox1.Image.Save(ms, Imaging.ImageFormat.Png)
+                    Dim pic = iTextSharp.text.Image.GetInstance(ms.ToArray)
+                    pic.ScaleAbsolute(100, 100)
+
+                    Dim imgCell As New PdfPCell(pic)
+                    imgCell.Border = iTextSharp.text.Rectangle.NO_BORDER
+                    imgCell.Rowspan = 4
+                    headerTable.AddCell(imgCell)
+                End Using
+            Else
+                Dim emptyCell As New PdfPCell(New Phrase(""))
+                emptyCell.Border = iTextSharp.text.Rectangle.NO_BORDER
+                headerTable.AddCell(emptyCell)
+            End If
+
+            Dim contactText =
+                $"Email: {txtEmail.Text}" & vbCrLf &
+                $"Phone: {txtPhone.Text}" & vbCrLf &
+                $"Address: {txtAddress.Text}"
+
+            Dim contactCell As New PdfPCell(New Phrase(contactText, FontFactory.GetFont(FontFactory.HELVETICA, 10)))
+            contactCell.Border = iTextSharp.text.Rectangle.NO_BORDER
+            headerTable.AddCell(contactCell)
+
+            doc.Add(headerTable)
+
+            doc.Add(New Paragraph(New Chunk(New LineSeparator(1.0F, 100.0F, BaseColor.GRAY, Element.ALIGN_CENTER, -1))))
+            doc.Add(New Paragraph(" "))
+
+            Dim namePara As New Paragraph(txtName.Text, FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 16))
+            namePara.Alignment = Element.ALIGN_LEFT
+            doc.Add(namePara)
+
+            doc.Add(New Paragraph(" "))
+            doc.Add(New Paragraph($"Birthday: {dtpBirthday.Value.ToLongDateString}"))
+
+            doc.Add(New Paragraph(" "))
+            doc.Add(New Paragraph("Education", FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 12, BaseColor.BLACK)))
+            Dim eduTable As New PdfPTable(1)
+            eduTable.WidthPercentage = 100
+            Dim eduCell As New PdfPCell(New Phrase(rtbeducation.Text))
+            eduCell.Border = iTextSharp.text.Rectangle.BOX
+            eduCell.Padding = 5
+            eduTable.AddCell(eduCell)
+            doc.Add(eduTable)
+
+            doc.Add(New Paragraph(" "))
+            doc.Add(New Paragraph("Skills", FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 12, BaseColor.BLACK)))
+            Dim skillTable As New PdfPTable(1)
+            skillTable.WidthPercentage = 100
+            Dim skillCell As New PdfPCell(New Phrase(rtbskills.Text))
+            skillCell.Border = iTextSharp.text.Rectangle.BOX
+            skillCell.Padding = 5
+            skillTable.AddCell(skillCell)
+            doc.Add(skillTable)
+
+            doc.Add(New Paragraph(" "))
+            doc.Add(New Paragraph("Experience", FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 12, BaseColor.BLACK)))
+            Dim expList As New List(Of String)(rtbExperience.Lines)
+            Dim bulletList As New List(List.UNORDERED)
+
+            For Each item In expList
+                If Not String.IsNullOrWhiteSpace(item) Then
+                    bulletList.Add(New ListItem(item.Trim, FontFactory.GetFont(FontFactory.HELVETICA, 10)))
+                End If
+            Next
+            doc.Add(bulletList)
+
+            doc.Add(New Paragraph(" "))
+            doc.Add(New Paragraph("Objectives", FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 12, BaseColor.BLACK)))
+            Dim objTable As New PdfPTable(1)
+            objTable.WidthPercentage = 100
+            Dim objCell As New PdfPCell(New Phrase(rtbObjectives.Text))
+            objCell.Border = iTextSharp.text.Rectangle.BOX
+            objCell.Padding = 5
+            objTable.AddCell(objCell)
+            doc.Add(objTable)
+
+            doc.Close()
+            MessageBox.Show("Resume PDF generated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
+        End If
+    End Sub
+
+    ' Auto-generated empty handlers — no changes to logic or inputs
+    Private Sub txtName_TextChanged(sender As Object, e As EventArgs) Handles txtName.TextChanged
+    End Sub
+
+    Private Sub Label1_Click(sender As Object, e As EventArgs) Handles lblObjectives.Click
+    End Sub
+
+    Private Sub PictureBox1_Click(sender As Object, e As EventArgs) Handles PictureBox1.Click
+    End Sub
+
+    Private Sub rtbExperience_TextChanged(sender As Object, e As EventArgs) Handles rtbExperience.TextChanged
+    End Sub
+
+    Private Sub lblExperience_Click(sender As Object, e As EventArgs) Handles lblExperience.Click
+    End Sub
+
+    Private Sub lblSummary_Click(sender As Object, e As EventArgs) Handles lblSummary.Click
+    End Sub
+
+    Private Sub lblBirthday_Click(sender As Object, e As EventArgs) Handles lblBirthday.Click
+    End Sub
+
+    Private Sub lblFullName_Click(sender As Object, e As EventArgs) Handles lblFullName.Click
+    End Sub
+
+    Private Sub lblEmail_Click(sender As Object, e As EventArgs) Handles lblEmail.Click
+    End Sub
+
+    Private Sub rtbeducation_TextChanged(sender As Object, e As EventArgs) Handles rtbeducation.TextChanged
+    End Sub
+
+    Private Sub rtbskills_TextChanged(sender As Object, e As EventArgs) Handles rtbskills.TextChanged
+    End Sub
+
+    Private Sub lblSkills_Click(sender As Object, e As EventArgs) Handles lblSkills.Click
+    End Sub
+
+    Private Sub txtAddress_TextChanged(sender As Object, e As EventArgs) Handles txtAddress.TextChanged
+    End Sub
+
+    Private Sub txtPhone_TextChanged(sender As Object, e As EventArgs) Handles txtPhone.TextChanged
+    End Sub
+
+    ' ✅ This is the only addition to wire up the Generate button
+    Private Sub btnGenerate_Click_1(sender As Object, e As EventArgs) Handles btnGenerate.Click
+        If AreAllFieldsFilled() Then
+            btnGenerate_Click(sender, e)
+        Else
+            MessageBox.Show("Please fill in all fields before generating the resume.", "Missing Information", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+        End If
+    End Sub
+
+End Class
+
