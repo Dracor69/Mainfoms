@@ -1,0 +1,250 @@
+<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
+Partial Class MainForm
+    Inherits System.Windows.Forms.Form
+
+    ' Required designer variable.
+    Private components As System.ComponentModel.IContainer
+
+    ' Form controls
+    Private WithEvents lblFullName As Label
+    Private WithEvents txtName As TextBox
+    Private WithEvents lblEmail As Label
+    Private WithEvents txtEmail As TextBox
+    Private WithEvents lblPhone As Label
+    Private WithEvents txtPhone As TextBox
+    Private WithEvents lblAddress As Label
+    Private WithEvents txtAddress As TextBox
+    Private WithEvents lblSkills As Label
+    Private WithEvents lblSummary As Label
+    Private WithEvents lblExperience As Label
+    Private WithEvents rtbExperience As RichTextBox
+    Private WithEvents lblBirthday As Label
+    Private WithEvents dtpBirthday As DateTimePicker
+
+    <System.Diagnostics.DebuggerStepThrough()>
+    Private Sub InitializeComponent()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(MainForm))
+        lblFullName = New Label()
+        txtName = New TextBox()
+        lblEmail = New Label()
+        txtEmail = New TextBox()
+        lblPhone = New Label()
+        txtPhone = New TextBox()
+        lblAddress = New Label()
+        txtAddress = New TextBox()
+        lblSkills = New Label()
+        lblSummary = New Label()
+        lblExperience = New Label()
+        rtbExperience = New RichTextBox()
+        lblBirthday = New Label()
+        dtpBirthday = New DateTimePicker()
+        PictureBox1 = New PictureBox()
+        lblObjectives = New Label()
+        rtbeducation = New RichTextBox()
+        rtbskills = New RichTextBox()
+        rtbObjectives = New RichTextBox()
+        btnGenerate = New Button()
+        CType(PictureBox1, ComponentModel.ISupportInitialize).BeginInit()
+        SuspendLayout()
+        ' 
+        ' lblFullName
+        ' 
+        lblFullName.Location = New Point(362, 8)
+        lblFullName.Name = "lblFullName"
+        lblFullName.Size = New Size(87, 23)
+        lblFullName.TabIndex = 0
+        lblFullName.Text = "Full Name:"
+        ' 
+        ' txtName
+        ' 
+        txtName.Font = New Font("Segoe UI", 9.0F, FontStyle.Bold, GraphicsUnit.Point)
+        txtName.Location = New Point(455, 5)
+        txtName.Name = "txtName"
+        txtName.Size = New Size(272, 27)
+        txtName.TabIndex = 1
+        ' 
+        ' lblEmail
+        ' 
+        lblEmail.Location = New Point(375, 45)
+        lblEmail.Name = "lblEmail"
+        lblEmail.Size = New Size(74, 23)
+        lblEmail.TabIndex = 2
+        lblEmail.Text = "Email:"
+        ' 
+        ' txtEmail
+        ' 
+        txtEmail.Font = New Font("Segoe UI", 9.0F, FontStyle.Bold, GraphicsUnit.Point)
+        txtEmail.Location = New Point(455, 41)
+        txtEmail.Name = "txtEmail"
+        txtEmail.Size = New Size(272, 27)
+        txtEmail.TabIndex = 3
+        ' 
+        ' lblPhone
+        ' 
+        lblPhone.Location = New Point(375, 74)
+        lblPhone.Name = "lblPhone"
+        lblPhone.Size = New Size(74, 23)
+        lblPhone.TabIndex = 4
+        lblPhone.Text = "Phone:"
+        ' 
+        ' txtPhone
+        ' 
+        txtPhone.Font = New Font("Segoe UI", 9.0F, FontStyle.Bold, GraphicsUnit.Point)
+        txtPhone.Location = New Point(455, 74)
+        txtPhone.Name = "txtPhone"
+        txtPhone.Size = New Size(272, 27)
+        txtPhone.TabIndex = 5
+        ' 
+        ' lblAddress
+        ' 
+        lblAddress.Location = New Point(371, 122)
+        lblAddress.Name = "lblAddress"
+        lblAddress.Size = New Size(78, 23)
+        lblAddress.TabIndex = 6
+        lblAddress.Text = "Address:"
+        ' 
+        ' txtAddress
+        ' 
+        txtAddress.Font = New Font("Segoe UI", 9.0F, FontStyle.Bold, GraphicsUnit.Point)
+        txtAddress.Location = New Point(455, 118)
+        txtAddress.Name = "txtAddress"
+        txtAddress.Size = New Size(272, 27)
+        txtAddress.TabIndex = 7
+        ' 
+        ' lblSkills
+        ' 
+        lblSkills.Location = New Point(375, 201)
+        lblSkills.Name = "lblSkills"
+        lblSkills.Size = New Size(74, 23)
+        lblSkills.TabIndex = 8
+        lblSkills.Text = "Skills:"
+        ' 
+        ' lblSummary
+        ' 
+        lblSummary.Location = New Point(354, 338)
+        lblSummary.Name = "lblSummary"
+        lblSummary.Size = New Size(78, 23)
+        lblSummary.TabIndex = 10
+        lblSummary.Text = "Education:"
+        ' 
+        ' lblExperience
+        ' 
+        lblExperience.Location = New Point(354, 470)
+        lblExperience.Name = "lblExperience"
+        lblExperience.Size = New Size(95, 23)
+        lblExperience.TabIndex = 12
+        lblExperience.Text = "Experience:"
+        ' 
+        ' rtbExperience
+        ' 
+        rtbExperience.Font = New Font("Segoe UI", 9.0F, FontStyle.Bold, GraphicsUnit.Point)
+        rtbExperience.Location = New Point(455, 438)
+        rtbExperience.Name = "rtbExperience"
+        rtbExperience.Size = New Size(281, 100)
+        rtbExperience.TabIndex = 13
+        rtbExperience.Text = ""
+        ' 
+        ' lblBirthday
+        ' 
+        lblBirthday.Location = New Point(379, 555)
+        lblBirthday.Name = "lblBirthday"
+        lblBirthday.Size = New Size(74, 23)
+        lblBirthday.TabIndex = 14
+        lblBirthday.Text = "Birthday:"
+        ' 
+        ' dtpBirthday
+        ' 
+        dtpBirthday.Location = New Point(471, 555)
+        dtpBirthday.Name = "dtpBirthday"
+        dtpBirthday.Size = New Size(265, 27)
+        dtpBirthday.TabIndex = 15
+        ' 
+        ' PictureBox1
+        ' 
+        PictureBox1.Image = CType(resources.GetObject("PictureBox1.Image"), Image)
+        PictureBox1.Location = New Point(94, 1)
+        PictureBox1.Name = "PictureBox1"
+        PictureBox1.Size = New Size(271, 223)
+        PictureBox1.SizeMode = PictureBoxSizeMode.Zoom
+        PictureBox1.TabIndex = 17
+        PictureBox1.TabStop = False
+        ' 
+        ' lblObjectives
+        ' 
+        lblObjectives.AutoSize = True
+        lblObjectives.Location = New Point(323, 629)
+        lblObjectives.Name = "lblObjectives"
+        lblObjectives.Size = New Size(81, 20)
+        lblObjectives.TabIndex = 18
+        lblObjectives.Text = "Objectives:"
+        ' 
+        ' rtbeducation
+        ' 
+        rtbeducation.Location = New Point(455, 290)
+        rtbeducation.Name = "rtbeducation"
+        rtbeducation.Size = New Size(281, 120)
+        rtbeducation.TabIndex = 19
+        rtbeducation.Text = ""
+        ' 
+        ' rtbskills
+        ' 
+        rtbskills.Location = New Point(455, 151)
+        rtbskills.Name = "rtbskills"
+        rtbskills.Size = New Size(281, 120)
+        rtbskills.TabIndex = 20
+        rtbskills.Text = ""
+        ' 
+        ' rtbObjectives
+        ' 
+        rtbObjectives.Location = New Point(426, 589)
+        rtbObjectives.Name = "rtbObjectives"
+        rtbObjectives.Size = New Size(347, 120)
+        rtbObjectives.TabIndex = 21
+        rtbObjectives.Text = ""
+        ' 
+        ' btnGenerate
+        ' 
+        btnGenerate.Location = New Point(464, 731)
+        btnGenerate.Name = "btnGenerate"
+        btnGenerate.Size = New Size(272, 58)
+        btnGenerate.TabIndex = 22
+        btnGenerate.Text = "Generate"
+        btnGenerate.UseVisualStyleBackColor = True
+        ' 
+        ' MainForm
+        ' 
+        ClientSize = New Size(1282, 821)
+        Controls.Add(btnGenerate)
+        Controls.Add(rtbObjectives)
+        Controls.Add(rtbskills)
+        Controls.Add(rtbeducation)
+        Controls.Add(lblObjectives)
+        Controls.Add(PictureBox1)
+        Controls.Add(lblFullName)
+        Controls.Add(txtName)
+        Controls.Add(lblEmail)
+        Controls.Add(txtEmail)
+        Controls.Add(lblPhone)
+        Controls.Add(txtPhone)
+        Controls.Add(lblAddress)
+        Controls.Add(txtAddress)
+        Controls.Add(lblSkills)
+        Controls.Add(lblSummary)
+        Controls.Add(lblExperience)
+        Controls.Add(rtbExperience)
+        Controls.Add(lblBirthday)
+        Controls.Add(dtpBirthday)
+        Name = "MainForm"
+        Text = "Resume Builder"
+        CType(PictureBox1, ComponentModel.ISupportInitialize).EndInit()
+        ResumeLayout(False)
+        PerformLayout()
+    End Sub
+    Friend WithEvents PictureBox1 As PictureBox
+    Friend WithEvents lblObjectives As Label
+    Friend WithEvents rtbeducation As RichTextBox
+    Friend WithEvents rtbskills As RichTextBox
+    Friend WithEvents rtbObjectives As RichTextBox
+    Friend WithEvents btnGenerate As Button
+End Class
+
