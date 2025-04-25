@@ -1,0 +1,39 @@
+Imports iTextSharp.text
+Imports iTextSharp.text.pdf
+Imports System.IO
+
+Public Class Codes
+
+    Public Shared Sub GenerateResumePDF(name As String, email As String, birthday As String, phone As String, address As String, skills As String, summary As String, experience As String)
+        Try
+            Dim filePath As String = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "Resume.pdf")
+            Dim doc As New Document(PageSize.A4)
+            Dim writer As PdfWriter = PdfWriter.GetInstance(doc, New FileStream(filePath, FileMode.Create))
+            doc.Open()
+
+            Dim titleFont As New Font(Font.FontFamily.HELVETICA, 18, Font.BOLD)
+            Dim normalFont As New Font(Font.FontFamily.HELVETICA, 12, Font.NORMAL)
+
+            doc.Add(New Paragraph("Resume", titleFont))
+            doc.Add(New Paragraph(" "))
+
+            doc.Add(New Paragraph("Name: " & name, normalFont))
+            doc.Add(New Paragraph("Email: " & email, normalFont))
+            doc.Add(New Paragraph("Birthday: " & birthday, normalFont))
+            doc.Add(New Paragraph("Phone: " & phone, normalFont))
+            doc.Add(New Paragraph("Address: " & address, normalFont))
+            doc.Add(New Paragraph("Skills: " & skills, normalFont))
+            doc.Add(New Paragraph("Summary: " & summary, normalFont))
+            doc.Add(New Paragraph("Experience: " & experience, normalFont)) ' Included experience
+
+            doc.Close()
+            writer.Close()
+
+            MessageBox.Show("Resume PDF generated successfully!" & vbCrLf & "Saved at: " & filePath, "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
+
+        Catch ex As Exception
+            MessageBox.Show("Error generating PDF: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
+    End Sub
+
+End Class
