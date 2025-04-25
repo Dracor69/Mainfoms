@@ -1,0 +1,23 @@
+Public Class Log_invb
+
+    ' Login button click event
+    Private Sub btnLogin_Click(sender As Object, e As EventArgs) Handles btnLogin.Click
+        Dim username As String = txtUsername.Text
+        Dim password As String = txtPassword.Text
+
+        ' Simple credential check (replace with real logic as needed)
+        If username = "admin" And password = "1234" Then
+            Me.Hide()
+            Dim mainForm As New MainForm()
+            mainForm.Show()
+        Else
+            MessageBox.Show("Invalid username or password", "Login Failed", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End If
+    End Sub
+
+    ' Cancel button click event
+    Private Sub btnCancel_Click(sender As Object, e As EventArgs) Handles btnCancel.Click
+        Me.Close()
+    End Sub
+
+End Class
